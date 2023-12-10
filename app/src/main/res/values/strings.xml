@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Aplikasi_Silastik</string>
+    <string name="Name">Name</string>
+    <string name="Email">Email</string>
+    <string name="Password">Password</string>
+    <string name="Login">Login</string>
+    <string name="Register">Register</string>
+</resources>
