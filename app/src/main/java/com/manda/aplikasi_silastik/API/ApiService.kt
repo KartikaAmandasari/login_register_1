@@ -6,6 +6,7 @@ import com.manda.aplikasi_silastik.UserDto
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.Header
 import retrofit2.http.POST
 
 interface ApiService {
@@ -14,5 +15,8 @@ interface ApiService {
 
     @POST("/register")
     fun register(@Body request: UserDto): Call<UserDto>
+    @GET("/profile")
+    fun getUserProfile(@Header("Authorization") authToken: String): Call<UserDto>
+
 
 }
