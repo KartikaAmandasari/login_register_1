@@ -1,4 +1,4 @@
-package com.manda.aplikasi_silastik
+package com.manda.aplikasi_silastik.RequestResponse
 
 data class AuthResponse(
     val email: String,

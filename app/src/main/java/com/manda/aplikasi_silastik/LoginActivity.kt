@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.manda.aplikasi_silastik.API.ApiService
 import com.manda.aplikasi_silastik.API.ApiServiceGenerator
 import com.manda.aplikasi_silastik.API.TokenManager
+import com.manda.aplikasi_silastik.RequestResponse.AuthRequest
+import com.manda.aplikasi_silastik.RequestResponse.AuthResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

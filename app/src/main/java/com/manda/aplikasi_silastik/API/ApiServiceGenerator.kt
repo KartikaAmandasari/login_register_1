@@ -8,48 +8,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 import android.content.Context
 
 
-//object ApiServiceGenerator {
-//    private const val BASE_URL = "http://192.168.100.116:8080/"
-//
-//    private val builder = Retrofit.Builder()
-//        .baseUrl(BASE_URL)
-//        .addConverterFactory(GsonConverterFactory.create())
-//
-//    val retrofit = builder.build()
-//
-//    fun <S> createService(serviceClass: Class<S>): S {
-//        return retrofit.create(serviceClass)
-//    }
-//}
-
-//object ApiServiceGenerator {
-//    private const val BASE_URL = "http://192.168.100.116:8080/"
-//
-//    private val interceptor = Interceptor { chain ->
-//        val original = chain.request()
-//        val requestBuilder = original.newBuilder()
-//            .header("Authorization", "Bearer " + TokenManager(context).getAuthToken())
-//            .method(original.method(), original.body())
-//        val request = requestBuilder.build()
-//        chain.proceed(request)
-//    }
-//
-//    private val okHttpClient = OkHttpClient.Builder()
-//        .addInterceptor(interceptor)
-//        .build()
-//
-//    private val builder = Retrofit.Builder()
-//        .baseUrl(BASE_URL)
-//        .addConverterFactory(GsonConverterFactory.create())
-//        .client(okHttpClient)
-//
-//    val retrofit = builder.build()
-//
-//    fun <S> createService(serviceClass: Class<S>): S {
-//        return retrofit.create(serviceClass)
-//    }
-//}
-
 object ApiServiceGenerator {
     private const val BASE_URL = "http://192.168.100.116:8080/"
     private lateinit var applicationContext: Context

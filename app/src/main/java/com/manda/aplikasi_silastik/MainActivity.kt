@@ -15,13 +15,23 @@ class MainActivity : AppCompatActivity() {
         val dataAccessButton: Button = findViewById(R.id.dataAccessButton)
         val statisticsConsultationButton: Button = findViewById(R.id.statisticsConsultationButton)
         val profileIcon: ImageView = findViewById(R.id.profileIcon)
+        val historyDataButton: Button = findViewById(R.id.historyDataButton)
 
         dataAccessButton.setOnClickListener {
-            // Tambahkan logika untuk tombol Layanan Akses Data
+            val intent = Intent(this@MainActivity, DataActivity::class.java)
+            startActivity(intent)
         }
 
         statisticsConsultationButton.setOnClickListener {
             // Tambahkan logika untuk tombol Konsultasi Statistik
+            val intent = Intent(this@MainActivity, KonsultasiActivity::class.java)
+            startActivity(intent)
+        }
+
+        //sementara
+        historyDataButton.setOnClickListener {
+            val intent = Intent(this@MainActivity, RiwayatDataActivity::class.java)
+            startActivity(intent)
         }
 
         profileIcon.setOnClickListener {
