@@ -9,10 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.manda.aplikasi_silastik.API.ApiService
 import com.manda.aplikasi_silastik.API.ApiServiceGenerator
 import com.manda.aplikasi_silastik.API.TokenManager
+import com.manda.aplikasi_silastik.entity.Konsultasi
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.time.LocalDate
 
 class KonsultasiActivity : AppCompatActivity() {
 

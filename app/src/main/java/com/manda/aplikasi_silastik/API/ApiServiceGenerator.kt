@@ -8,6 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import android.content.Context
 
 
+
 object ApiServiceGenerator {
     private const val BASE_URL = "http://192.168.100.116:8080/"
     private lateinit var applicationContext: Context

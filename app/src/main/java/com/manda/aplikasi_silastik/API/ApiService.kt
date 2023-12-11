@@ -2,16 +2,18 @@ package com.manda.aplikasi_silastik.API
 
 import com.manda.aplikasi_silastik.RequestResponse.AuthRequest
 import com.manda.aplikasi_silastik.RequestResponse.AuthResponse
-import com.manda.aplikasi_silastik.DataUser
-import com.manda.aplikasi_silastik.Konsultasi
+import com.manda.aplikasi_silastik.entity.DataUser
+import com.manda.aplikasi_silastik.entity.Konsultasi
 import com.manda.aplikasi_silastik.RequestResponse.DataUserRequest
-import com.manda.aplikasi_silastik.UserDto
+import com.manda.aplikasi_silastik.entity.DataUserRequestDto
+import com.manda.aplikasi_silastik.entity.UserDto
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiService {
     @POST("/login")
@@ -32,6 +34,6 @@ interface ApiService {
     fun requestData (@Header("Authorization") authToken: String, @Body requestData: DataUserRequest): Call<Response<String>>
 
     @GET("/data/requests/user/{id}")
-    fun getSomeData(@Header("Authorization") authToken: String): Call<List<DataUser>>
+    fun getUserDataRequests(@Path("id") id: Long): Call<List<DataUserRequestDto>>
 
 }

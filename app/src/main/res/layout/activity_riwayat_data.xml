@@ -19,7 +19,7 @@
             android:text="Riwayat Pengajuan Data"
             android:textColor="#FFFFFF"
             android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
     </RelativeLayout>
 
     <!-- ListView untuk menampilkan riwayat pengajuan data -->

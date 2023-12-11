@@ -1,4 +1,4 @@
-package com.manda.aplikasi_silastik
+package com.manda.aplikasi_silastik.RequestResponse
 
 import java.time.LocalDate
 

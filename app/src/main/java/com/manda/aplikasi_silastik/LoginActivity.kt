@@ -1,4 +1,3 @@
-
 package com.manda.aplikasi_silastik
 
 import android.content.Intent
@@ -57,11 +56,14 @@ class LoginActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val authResponse = response.body()
 
-                    // Cek apakah token tidak kosong
+                    // Cek apakah token dan ID pengguna tidak kosong
                     val token = authResponse?.accessToken
-                    if (!token.isNullOrBlank()) {
-                        // Simpan token ke TokenManager
+                    val userId = authResponse?.id
+
+                    if (!token.isNullOrBlank() && userId != null) {
+                        // Simpan token dan ID pengguna ke TokenManager
                         tokenManager.saveAuthToken(token)
+                        tokenManager.saveUserId(userId)
 
                         // Tampilkan toast "Login Sukses"
                         showToast("Login Sukses")
@@ -71,8 +73,8 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(intent)
                         finish() // Optional: tutup activity ini agar tidak bisa kembali ke LoginActivity
                     } else {
-                        // Tangani jika token kosong
-                        showToast("Login Gagal: Token kosong")
+                        // Tangani jika token atau ID pengguna kosong
+                        showToast("Login Gagal: Token atau ID pengguna kosong")
                     }
                 } else {
                     // Tangani respon yang tidak berhasil

@@ -1,72 +1,103 @@
 package com.manda.aplikasi_silastik
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.manda.aplikasi_silastik.API.ApiService
 import com.manda.aplikasi_silastik.API.ApiServiceGenerator
 import com.manda.aplikasi_silastik.API.TokenManager
-import com.manda.aplikasi_silastik.RequestResponse.DataUserRequest
+import com.manda.aplikasi_silastik.entity.DataUserRequestDto
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class RiwayatDataActivity : AppCompatActivity() {
-
-    private lateinit var apiService: ApiService
-    private lateinit var tokenManager: TokenManager
     private lateinit var listView: ListView
-    private lateinit var adapter: ArrayAdapter<String>
+    private lateinit var tokenManager: TokenManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_riwayat_data)
 
-        apiService = ApiServiceGenerator.createService(ApiService::class.java)
+        listView = findViewById(R.id.listViewRequestHistory)
         tokenManager = TokenManager(applicationContext)
 
-        listView = findViewById(R.id.listViewRequestHistory)
+        // Panggil fungsi untuk mengambil data
+        fetchData()
+    }
 
-        // Ambil token dari TokenManager
-        val authToken = tokenManager.getAuthToken()
+    private fun fetchData() {
+        // Ambil ID pengguna dari SharedPreferences
+        val userId = tokenManager.getUserId()
 
-        // Panggil endpoint untuk mendapatkan riwayat pengajuan data
-        val call: Call<List<DataUser>> = apiService.getSomeData("Bearer $authToken") // Sesuaikan dengan parameter yang sesuai
-        call.enqueue(object : Callback<List<DataUser>> {
-            override fun onResponse(call: Call<List<DataUser>>, response: Response<List<DataUser>>) {
+        // Panggil endpoint dengan ID pengguna
+        userId?.let {
+            fetchUserDataRequests(it)
+        }
+    }
+
+    private fun fetchUserDataRequests(userId: Long) {
+        // Buat instance dari ApiService
+        val apiService = ApiServiceGenerator.createService(ApiService::class.java)
+
+        // Panggil endpoint untuk mendapatkan data riwayat berdasarkan userId
+        val call = apiService.getUserDataRequests(userId)
+
+        // Lakukan permintaan secara asynchronous
+        call.enqueue(object : Callback<List<DataUserRequestDto>> {
+            override fun onResponse(
+                call: Call<List<DataUserRequestDto>>,
+                response: Response<List<DataUserRequestDto>>
+            ) {
                 if (response.isSuccessful) {
-                    val userDataList = response.body()
+                    // Proses data jika permintaan berhasil
+                    val dataUserRequestList = response.body()
 
-                    // Ambil data atribut dari riwayat pengajuan
-                    val requestDataDetails = getRequestDataDetails(userDataList)
-
-                    // Inisialisasi adapter dan set ke ListView
-                    adapter = ArrayAdapter(this@RiwayatDataActivity, android.R.layout.simple_list_item_1, requestDataDetails)
-                    listView.adapter = adapter
+                    // Tampilkan data dalam ListView
+                    showDataInListView(dataUserRequestList)
                 } else {
-                    // Tangani respons tidak sukses di sini
+                    // Tampilkan pesan kesalahan dari server
+                    val errorMessage = try {
+                        response.errorBody()?.string() ?: "Unknown error"
+                    } catch (e: Exception) {
+                        "Error parsing error message"
+                    }
+
+                    Log.e("RiwayatDataActivity", "Error response: $response")
+                    Log.e("RiwayatDataActivity", "Error message: $errorMessage")
+
+                    Toast.makeText(
+                        this@RiwayatDataActivity,
+                        "Terjadi kesalahan: $errorMessage",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
-            override fun onFailure(call: Call<List<DataUser>>, t: Throwable) {
-                // Tangani kegagalan panggilan di sini
+            override fun onFailure(call: Call<List<DataUserRequestDto>>, t: Throwable) {
+                // Tampilkan pesan jika terjadi kesalahan
+                Log.e("RiwayatDataActivity", "Terjadi kesalahan: ${t.message}")
+                Toast.makeText(
+                    this@RiwayatDataActivity,
+                    "Terjadi kesalahan: ${t.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
 
-    // Metode untuk mendapatkan detail atribut dari objek DataUser
-    private fun getRequestDataDetails(userDataList: List<DataUser>?): List<String> {
-        // Implementasikan logika sesuai dengan struktur DataUser Anda
-        // Misalnya, dapatkan seluruh atribut dari setiap objek dan masukkan ke dalam List<String>
-        // Contoh sederhana: ambil semua atribut dari objek DataUser
-        val requestDataDetails = mutableListOf<String>()
-        userDataList?.let {
-            for (dataUser in it) {
-                val detail = "ID: ${dataUser.id}, Kategori: ${dataUser.kategori}, Judul: ${dataUser.judul}, Provinsi: ${dataUser.provinsi}, Tahun: ${dataUser.tahun}"
-                requestDataDetails.add(detail)
-            }
+    private fun showDataInListView(dataList: List<DataUserRequestDto>?) {
+        // Tampilkan data dalam ListView
+        if (dataList != null) {
+            val adapter = ArrayAdapter(
+                this@RiwayatDataActivity,
+                android.R.layout.simple_list_item_1,
+                dataList.map { it.toString() }
+            )
+            listView.adapter = adapter
         }
-        return requestDataDetails
     }
 }
