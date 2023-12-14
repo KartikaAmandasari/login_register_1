@@ -1,5 +1,6 @@
 package com.manda.aplikasi_silastik
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -18,7 +19,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private lateinit var nameTextView: TextView
     private lateinit var emailTextView: TextView
-    private lateinit var changePasswordButton: Button
+    private lateinit var changeProfileButton: Button
     private lateinit var tokenManager: TokenManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +28,7 @@ class ProfileActivity : AppCompatActivity() {
 
         nameTextView = findViewById(R.id.nameTextView)
         emailTextView = findViewById(R.id.emailTextView)
-        changePasswordButton = findViewById(R.id.changePasswordButton)
+        changeProfileButton = findViewById(R.id.changeProfileButton)
 
         // Inisialisasi TokenManager dengan melewatkan context
         tokenManager = TokenManager(this)
@@ -36,8 +37,14 @@ class ProfileActivity : AppCompatActivity() {
         getUserProfile()
 
         // Tambahkan listener pada tombol ubah password
-        changePasswordButton.setOnClickListener {
-            // Implementasikan logika untuk mengubah password
+//        changeProfileButton.setOnClickListener {
+//            val intent = Intent(this@ProfileActivity, EditProfileActivity::class.java)
+//            startActivity(intent)
+//        }
+        changeProfileButton.setOnClickListener {
+            Log.d("ProfileActivity", "Button clicked, starting EditProfileActivity")
+            val intent = Intent(this@ProfileActivity, EditProfileActivity::class.java)
+            startActivity(intent)
         }
     }
 
