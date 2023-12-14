@@ -20,6 +20,7 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var nameTextView: TextView
     private lateinit var emailTextView: TextView
     private lateinit var changeProfileButton: Button
+    private lateinit var changePasswordButton: Button
     private lateinit var tokenManager: TokenManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,6 +30,7 @@ class ProfileActivity : AppCompatActivity() {
         nameTextView = findViewById(R.id.nameTextView)
         emailTextView = findViewById(R.id.emailTextView)
         changeProfileButton = findViewById(R.id.changeProfileButton)
+        changePasswordButton = findViewById(R.id.changePasswordButton)
 
         // Inisialisasi TokenManager dengan melewatkan context
         tokenManager = TokenManager(this)
@@ -36,14 +38,15 @@ class ProfileActivity : AppCompatActivity() {
         // Panggil fungsi untuk mendapatkan profil pengguna
         getUserProfile()
 
-        // Tambahkan listener pada tombol ubah password
-//        changeProfileButton.setOnClickListener {
-//            val intent = Intent(this@ProfileActivity, EditProfileActivity::class.java)
-//            startActivity(intent)
-//        }
         changeProfileButton.setOnClickListener {
             Log.d("ProfileActivity", "Button clicked, starting EditProfileActivity")
             val intent = Intent(this@ProfileActivity, EditProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        changePasswordButton.setOnClickListener {
+            Log.d("ProfileActivity", "Button clicked, starting EditProfileActivity")
+            val intent = Intent(this@ProfileActivity, EditPasswordActivity::class.java)
             startActivity(intent)
         }
     }
