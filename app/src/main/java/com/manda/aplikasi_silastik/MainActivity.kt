@@ -23,19 +23,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         statisticsConsultationButton.setOnClickListener {
-            // Tambahkan logika untuk tombol Konsultasi Statistik
             val intent = Intent(this@MainActivity, KonsultasiActivity::class.java)
             startActivity(intent)
         }
 
-        //sementara
         historyDataButton.setOnClickListener {
             val intent = Intent(this@MainActivity, RiwayatDataActivity::class.java)
             startActivity(intent)
         }
 
         profileIcon.setOnClickListener {
-            // Ketika ikon gambar orang di klik, arahkan ke ProfileActivity
             val intent = Intent(this@MainActivity, ProfileActivity::class.java)
             startActivity(intent)
         }

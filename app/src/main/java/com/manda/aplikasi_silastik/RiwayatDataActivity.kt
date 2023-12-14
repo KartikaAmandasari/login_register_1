@@ -1,5 +1,6 @@
 package com.manda.aplikasi_silastik
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
@@ -25,41 +26,38 @@ class RiwayatDataActivity : AppCompatActivity() {
         listView = findViewById(R.id.listViewRequestHistory)
         tokenManager = TokenManager(applicationContext)
 
-        // Panggil fungsi untuk mengambil data
         fetchData()
     }
 
     private fun fetchData() {
-        // Ambil ID pengguna dari SharedPreferences
         val userId = tokenManager.getUserId()
-
-        // Panggil endpoint dengan ID pengguna
         userId?.let {
             fetchUserDataRequests(it)
         }
     }
 
     private fun fetchUserDataRequests(userId: Long) {
-        // Buat instance dari ApiService
         val apiService = ApiServiceGenerator.createService(ApiService::class.java)
-
-        // Panggil endpoint untuk mendapatkan data riwayat berdasarkan userId
         val call = apiService.getUserDataRequests(userId)
 
-        // Lakukan permintaan secara asynchronous
         call.enqueue(object : Callback<List<DataUserRequestDto>> {
             override fun onResponse(
                 call: Call<List<DataUserRequestDto>>,
                 response: Response<List<DataUserRequestDto>>
             ) {
                 if (response.isSuccessful) {
-                    // Proses data jika permintaan berhasil
                     val dataUserRequestList = response.body()
-
-                    // Tampilkan data dalam ListView
                     showDataInListView(dataUserRequestList)
+                    Toast.makeText(
+                        this@RiwayatDataActivity,
+                        "Request data berhasil",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val intent = Intent(this@RiwayatDataActivity, RiwayatDataActivity::class.java)
+                    startActivity(intent)
+                    finish()
+
                 } else {
-                    // Tampilkan pesan kesalahan dari server
                     val errorMessage = try {
                         response.errorBody()?.string() ?: "Unknown error"
                     } catch (e: Exception) {
@@ -74,15 +72,26 @@ class RiwayatDataActivity : AppCompatActivity() {
                         "Terjadi kesalahan: $errorMessage",
                         Toast.LENGTH_SHORT
                     ).show()
+
+                    Toast.makeText(
+                        this@RiwayatDataActivity,
+                        "Request data gagal",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<List<DataUserRequestDto>>, t: Throwable) {
-                // Tampilkan pesan jika terjadi kesalahan
                 Log.e("RiwayatDataActivity", "Terjadi kesalahan: ${t.message}")
                 Toast.makeText(
                     this@RiwayatDataActivity,
                     "Terjadi kesalahan: ${t.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
+
+                Toast.makeText(
+                    this@RiwayatDataActivity,
+                    "Request data gagal",
                     Toast.LENGTH_SHORT
                 ).show()
             }
@@ -90,7 +99,6 @@ class RiwayatDataActivity : AppCompatActivity() {
     }
 
     private fun showDataInListView(dataList: List<DataUserRequestDto>?) {
-        // Tampilkan data dalam ListView
         if (dataList != null) {
             val adapter = ArrayAdapter(
                 this@RiwayatDataActivity,

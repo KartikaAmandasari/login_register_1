@@ -1,5 +1,6 @@
 package com.manda.aplikasi_silastik.API
 
+import com.manda.aplikasi_silastik.entity.PasswordChangeRequest
 import com.manda.aplikasi_silastik.RequestResponse.AuthRequest
 import com.manda.aplikasi_silastik.RequestResponse.AuthResponse
 import com.manda.aplikasi_silastik.entity.DataUser
@@ -40,5 +41,8 @@ interface ApiService {
 
     @PUT("/profile/{id}")
     fun updateUserProfile(@Header("Authorization") authToken: String, @Path("id") id: Long, @Body updatedUserDto: UpdatedUserDto): Call<UpdatedUserDto>
+
+    @POST("/change-password/{userId}")
+    fun changePassword(@Header("Authorization") authToken: String, @Path("userId") userId: Long, @Body passwordChangeRequest: PasswordChangeRequest): Call<UpdatedUserDto>
 
 }

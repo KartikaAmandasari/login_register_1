@@ -52,12 +52,12 @@ class EditProfileActivity : AppCompatActivity() {
                         editTextName.setText(userDto?.name)
                         editTextEmail.setText(userDto?.email)
                     } else {
-                        // Handle kesalahan ketika mendapatkan profil
+
                     }
                 }
 
                 override fun onFailure(call: Call<UserDto>, t: Throwable) {
-                    // Handle kesalahan ketika koneksi ke server gagal
+
                 }
             })
         }
@@ -79,19 +79,17 @@ class EditProfileActivity : AppCompatActivity() {
                         response: Response<UpdatedUserDto>
                     ) {
                         if (response.isSuccessful) {
-                            // Handle ketika perubahan berhasil disimpan
                             Toast.makeText(
                                 this@EditProfileActivity,
                                 "Update profil berhasil",
                                 Toast.LENGTH_SHORT
                             ).show()
 
-                            // Kembali ke halaman profil
                             val intent = Intent(this@EditProfileActivity, ProfileActivity::class.java)
                             startActivity(intent)
-                            finish() // Tutup activity saat ini agar tidak dapat kembali ke halaman edit profil
+                            finish()
                         } else {
-                            // Handle ketika terjadi kesalahan dalam menyimpan perubahan
+
                             Toast.makeText(
                                 this@EditProfileActivity,
                                 "Gagal menyimpan perubahan",
@@ -101,7 +99,7 @@ class EditProfileActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<UpdatedUserDto>, t: Throwable) {
-                        // Handle kesalahan ketika koneksi ke server gagal
+
                     }
                 })
         }
