@@ -40,5 +40,9 @@ object ApiServiceGenerator {
     fun <S> createService(serviceClass: Class<S>): S {
         return retrofit.create(serviceClass)
     }
+    fun getUserService(): ApiService {
+        return createService(ApiService::class.java)
+    }
+
 }
 

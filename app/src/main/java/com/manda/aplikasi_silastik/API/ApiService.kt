@@ -1,10 +1,12 @@
 package com.manda.aplikasi_silastik.API
 
+import com.manda.aplikasi_silastik.entity.PasswordChangeRequest
 import com.manda.aplikasi_silastik.RequestResponse.AuthRequest
 import com.manda.aplikasi_silastik.RequestResponse.AuthResponse
 import com.manda.aplikasi_silastik.entity.DataUser
 import com.manda.aplikasi_silastik.entity.Konsultasi
 import com.manda.aplikasi_silastik.RequestResponse.DataUserRequest
+import com.manda.aplikasi_silastik.entity.UpdatedUserDto
 import com.manda.aplikasi_silastik.entity.DataUserRequestDto
 import com.manda.aplikasi_silastik.entity.UserDto
 import retrofit2.Call
@@ -13,6 +15,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ApiService {
@@ -35,5 +38,11 @@ interface ApiService {
 
     @GET("/data/requests/user/{id}")
     fun getUserDataRequests(@Path("id") id: Long): Call<List<DataUserRequestDto>>
+
+    @PUT("/profile/{id}")
+    fun updateUserProfile(@Header("Authorization") authToken: String, @Path("id") id: Long, @Body updatedUserDto: UpdatedUserDto): Call<UpdatedUserDto>
+
+    @POST("/change-password/{userId}")
+    fun changePassword(@Header("Authorization") authToken: String, @Path("userId") userId: Long, @Body passwordChangeRequest: PasswordChangeRequest): Call<UpdatedUserDto>
 
 }
